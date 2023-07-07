@@ -52,8 +52,8 @@ class RootController {
                 "<br>" +
                 "<div>The verification code you are looking for is: <b>${verificationCode.code}</b></div>" +
                 "<div>This was last updated ${getTimeDifference(verificationCode.lastUpdated)} ago.</div>" +
-                "<div>If this isn't the valid code, please wait up to a minute for the thing to do the thingy.</div>" +
                 "<br>" +
+                "<div>If this isn't the valid code, please wait up to a minute for the thing to do the thingy.</div>" +
                 "<div>If you have any suggestions for this flow, let me know!</div>"
     }
 }
