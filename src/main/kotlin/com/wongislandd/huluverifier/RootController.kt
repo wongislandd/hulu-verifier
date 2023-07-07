@@ -1,13 +1,12 @@
 package com.wongislandd.huluverifier
 
-import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.RequestBody
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RestController
+import org.apache.catalina.manager.StatusTransformer.formatTime
+import org.springframework.web.bind.annotation.*
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
 private const val DATE_TIME_FORMAT = "yyyy-MM-dd HH:mm:ss"
+private const val SUPER_SECRET_AUTH_CODE = "chrisiscool123"
 
 @RestController
 class RootController {
@@ -16,14 +15,23 @@ class RootController {
     private var latestCode = VerificationCode()
 
     @RequestMapping("/")
+    fun getCodePretty(): String {
+        return "Verification code: ${latestCode.code} ------- Last updated: ${latestCode.lastUpdated}"
+    }
+
+    @RequestMapping("/code")
     fun getCode(): String {
-        return latestCode.toString()
+        return latestCode.code
     }
 
     @PostMapping("/")
-    fun newCode(@RequestBody newCode: String): String {
-        latestCode = VerificationCode(newCode, getCurrentTime())
-        return "Successfully updated code to $latestCode"
+    fun newCode(@RequestParam auth: String, @RequestBody newCode: String): String {
+        return if (auth == SUPER_SECRET_AUTH_CODE) {
+            latestCode = VerificationCode(newCode, getCurrentTime())
+            "Successfully updated code to $latestCode"
+        } else {
+            "Invalid authentication!"
+        }
     }
 
     private fun getCurrentTime(): String {
