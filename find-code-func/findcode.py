@@ -7,8 +7,8 @@ import re
 def main(req: func.HttpRequest) -> func.HttpResponse:
     logging.info('Python HTTP trigger function processed a request.')
 
-    word = req.get_body().decode()
-    maybeVerificationCodes = re.findall(r'\d{6}', word)
+    fullBody = req.get_body().decode()
+    maybeVerificationCodes = re.findall(r'>\d{6}<', fullBody)
 
     if maybeVerificationCodes:
         verificationCode = maybeVerificationCodes[0]
