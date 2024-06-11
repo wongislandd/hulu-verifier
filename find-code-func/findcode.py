@@ -8,12 +8,12 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
     logging.info('Python HTTP trigger function processed a request.')
 
     fullBody = req.get_body().decode()
-    maybeVerificationCodes = re.findall(r'>\d{6}<', fullBody)
+    maybeVerificationCodeIdentified = re.findall(r'>\d{6}<', fullBody)
+    verificationCodeParsed = re.findall(r'\d{6}', maybeVerificationCodeIdentified)
 
-    if maybeVerificationCodes:
-        verificationCode = maybeVerificationCodes[0]
-        logging.info(f'Verification code found: {verificationCode}')
-        return func.HttpResponse(verificationCode)
+    if maybeVerificationCodeIdentified:
+        logging.info(f'Verification code found: {verificationCodeParsed}')
+        return func.HttpResponse(verificationCodeParsed)
     else:
         return func.HttpResponse(
              "No verification code found.",
