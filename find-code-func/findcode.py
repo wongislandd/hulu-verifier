@@ -9,7 +9,7 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
 
     fullBody = req.get_body().decode()
     maybeVerificationCodeIdentified = re.findall(r'>\d{6}<', fullBody)
-    verificationCodeParsed = re.findall(r'\d{6}', maybeVerificationCodeIdentified)
+    verificationCodeParsed = re.findall(r'\d{6}', maybeVerificationCodeIdentified)[0]
 
     if maybeVerificationCodeIdentified:
         logging.info(f'Verification code found: {verificationCodeParsed}')
