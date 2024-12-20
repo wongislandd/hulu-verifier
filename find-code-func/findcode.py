@@ -15,6 +15,6 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
         return func.HttpResponse(verificationCodeParsed)
     else:
         return func.HttpResponse(
-             "No verification code found.",
+             "No verification code found. Body: " + str(fullBody),
              status_code=404
         )
